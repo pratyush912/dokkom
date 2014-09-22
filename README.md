@@ -1,4 +1,4 @@
 dokkom
 ======
 
-Compare documents
+Compare documents (Currently in active development state)
