@@ -9,23 +9,21 @@ def readfile(input_file):
   ins = open(input_file,'r')
   array = []
   for line in ins:
-    zz = re.sub('[^A-Za-z0-9\+]+',' ', line.lower())
+    zz = re.sub('[^A-Za-z0-9+-.]+',' ', line.lower())
     array.append(zz)
 
-  stemmer = PorterStemmer()
-
-  stemmed_tokens = []
+  all_tokens = []
 
   for line in array:
     tokens = nltk.word_tokenize(line)
+    line_tokens = []
     for token in tokens:
-      stemmed_tokens.append(stemmer.stem(token))
-      #print stemmer.stem(token)
-    #print '----------------------------------------------------------' 
-  return stemmed_tokens
+      if(not(token.isspace())):
+        line_tokens.append(token)
+    if line_tokens:
+      all_tokens.append(line_tokens)
+  return all_tokens
 
-#parser = argparse.ArgumentParser(description='Pass an input file')
-#parser.add_argument('-i','--input-file', help='Input file', required=True)
-#args= parser.parse_args()
-#input_file = args.input_file
-
+def stem():
+  stemmer = PorterStemmer()
+  stemmer.stem(token)
