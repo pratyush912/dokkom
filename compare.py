@@ -2,12 +2,11 @@ import argparse
 import logging
 import constants
 import os
-import stemming
-
+import utils
 #process input files for comparison
 def process_files(first_file,second_file):
-  tokens_1 = stemming.readfile(first_file)
-  tokens_2 = stemming.readfile(second_file)
+  tokens_1 = utils.readfile(first_file)
+  tokens_2 = utils.readfile(second_file)
   print tokens_1
   
 
