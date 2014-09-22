@@ -7,7 +7,7 @@ def readfile(input_file):
   ins = open(input_file,'r')
   array = []
   for line in ins:
-    zz = re.sub('[^A-Za-z0-9+-.]+',' ', line.lower())
+    zz = re.sub('[^A-Za-z0-9+-.@]+',' ', line)
     array.append(zz)
 
   all_tokens = []

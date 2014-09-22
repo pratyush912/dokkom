@@ -3,11 +3,13 @@ import logging
 import constants
 import os
 import utils
+import nltk
+
 #process input files for comparison
 def process_files(first_file,second_file):
   tokens_1 = utils.readfile(first_file)
   tokens_2 = utils.readfile(second_file)
-  print tokens_1
+  print nltk.pos_tag(tokens_1[13])
   
 
 #logging configuration
