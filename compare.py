@@ -4,6 +4,28 @@ import constants
 import os
 import utils
 import nltk
+from nltk import metrics
+
+
+"""
+total steps-
+  - token comparison
+"""
+
+def fuzzy_comparison(tokens_1,tokens_2,max_dist=1):
+  """ compares the tokens based on fuzzy match """
+  for token in reversed(tokens_1):
+    if len(token)<=2:
+      continue
+    for tkn in reversed(tokens_2):
+      if len(tkn)<=2:
+        continue
+      if metrics.edit_distance(token, tkn) <= max_dist:
+        print "Match found for:"+token+" - "+tkn
+	tokens_2.remove(tkn)
+	tokens_1.remove(token)
+	break
+
 
 
 def token_comparison(tokens_1,tokens_2):
