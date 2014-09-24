@@ -10,27 +10,45 @@ from nltk import metrics
 """
 total steps-
   - token comparison
+  - fuzzy comparison
 """
+
+init_term_1 = 0
+init_term_2 = 0
 
 def fuzzy_comparison(tokens_1,tokens_2,max_dist=1):
   """ compares the tokens based on fuzzy match """
+  matched = 0
+  matched_len_1 = init_term_1 - len(tokens_1)
+  matched_len_2 = init_term_2 - len(tokens_2)
+
   for token in reversed(tokens_1):
     if len(token)<=2:
+      tokens_1.remove(token)
       continue
     for tkn in reversed(tokens_2):
       if len(tkn)<=2:
+        tokens_2.remove(tkn)
         continue
       if metrics.edit_distance(token, tkn) <= max_dist:
-        print "Match found for:"+token+" - "+tkn
+	matched = matched + 1
+        logging.debug("Match found for:"+token+" - "+tkn)
 	tokens_2.remove(tkn)
 	tokens_1.remove(token)
 	break
+
+  logging.info("Fuzzy match count:"+str(matched))
+  score_1 = (matched_len_1 + matched)/float(init_term_1)
+  score_2 = (matched_len_2 + matched)/float(init_term_2)
+  return score_1,score_2
 
 
 
 def token_comparison(tokens_1,tokens_2):
   """compares input based on token matches irrespective of order"""
+  global init_term_1 
   init_term_1 = len(tokens_1)
+  global init_term_2 
   init_term_2 = len(tokens_2)
   for token in reversed(tokens_1):
     try:
@@ -52,14 +70,17 @@ def token_comparison(tokens_1,tokens_2):
       print "First document is completely matching second document but the second document has "+str(len_of_2)+" different term(s)"
     else:
       print "Initial terms for first document were "+str(init_term_1)+"\nInitial terms for second document were "+str(init_term_2)+"\nSecond document has "+str(len_of_2)+" different term(s)"+"\nFirst document has "+str(len_of_1)+" different term(s)"
-  return score_1, score_2
+  return score_1, score_2, (tokens_1, tokens_2)
 
 def process_files(first_file,second_file):
   """process input files for comparison"""
   tokens_1 = utils.tokenize_text(first_file)
   tokens_2 = utils.tokenize_text(second_file)
-  tc_scr1,tc_scr2 = token_comparison(tokens_1,tokens_2)
-  print "First-->Second Score:"+str(tc_scr1) + " Second-->First Score-->"+str(tc_scr2)
+  tc_scr1,tc_scr2,tokens = token_comparison(tokens_1,tokens_2)
+  fuz_scr1,fuz_scr2 = fuzzy_comparison(tokens[0],tokens[1])
+  scr_1 = (tc_scr1 + fuz_scr1)/2
+  scr_2 = (tc_scr2 + fuz_scr2)/2
+  print "First-->Second Score:"+str(scr_1) + " Second-->First Score-->"+str(scr_2)
 
 #logging configuration
 logging.basicConfig(filename='app.log',level=constants.LOG_LEVEL)
