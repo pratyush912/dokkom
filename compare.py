@@ -5,10 +5,9 @@ import os
 import utils
 import nltk
 
-#process input files for comparison
-def process_files(first_file,second_file):
-  tokens_1 = utils.tokenize_text(first_file)
-  tokens_2 = utils.tokenize_text(second_file)
+
+def token_comparison(tokens_1,tokens_2):
+  """compares input based on token matches irrespective of order"""
   init_term_1 = len(tokens_1)
   init_term_2 = len(tokens_2)
   for token in reversed(tokens_1):
@@ -29,6 +28,12 @@ def process_files(first_file,second_file):
       print "First document is completely matching second document but the second document has "+str(len_of_2)+" different term(s)"
     else:
       print "Initial terms for first document were "+str(init_term_1)+"\nInitial terms for second document were "+str(init_term_2)+"\nSecond document has "+str(len_of_2)+" different term(s)"+"\nFirst document has "+str(len_of_1)+" different term(s)"
+
+def process_files(first_file,second_file):
+  """process input files for comparison"""
+  tokens_1 = utils.tokenize_text(first_file)
+  tokens_2 = utils.tokenize_text(second_file)
+  token_comparison(tokens_1,tokens_2)
 
 #logging configuration
 logging.basicConfig(filename='app.log',level=constants.LOG_LEVEL)
