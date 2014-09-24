@@ -19,8 +19,10 @@ def token_comparison(tokens_1,tokens_2):
       logging.debug("Value "+token+" does not exist in second array")
   len_of_1 = len(tokens_1)
   len_of_2 = len(tokens_2)
+  score_1 = (init_term_1 - len_of_1)/float(init_term_1)
+  score_2 = (init_term_2 - len_of_2)/float(init_term_2)
   if len_of_2 ==0 and len_of_1==0:
-    print "Both the documents are exact matches" 
+    print "Both the documents are exact matches"
   else:
     if len_of_2==0:
       print "Second document is completely matching first document but the first document has "+str(len_of_1)+" different term(s)"
@@ -28,12 +30,14 @@ def token_comparison(tokens_1,tokens_2):
       print "First document is completely matching second document but the second document has "+str(len_of_2)+" different term(s)"
     else:
       print "Initial terms for first document were "+str(init_term_1)+"\nInitial terms for second document were "+str(init_term_2)+"\nSecond document has "+str(len_of_2)+" different term(s)"+"\nFirst document has "+str(len_of_1)+" different term(s)"
+  return score_1, score_2
 
 def process_files(first_file,second_file):
   """process input files for comparison"""
   tokens_1 = utils.tokenize_text(first_file)
   tokens_2 = utils.tokenize_text(second_file)
-  token_comparison(tokens_1,tokens_2)
+  tc_scr1,tc_scr2 = token_comparison(tokens_1,tokens_2)
+  print "First-->Second Score:"+str(tc_scr1) + " Second-->First Score-->"+str(tc_scr2)
 
 #logging configuration
 logging.basicConfig(filename='app.log',level=constants.LOG_LEVEL)
