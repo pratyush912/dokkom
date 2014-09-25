@@ -4,16 +4,16 @@ import nltk
 def readfile(input_file):
   """reads and input file and tokenizes all the lines
      returns an array of tokenized lines """
-  ins = open(input_file,'r')
-  array = []
-  for line in ins:
-    zz = re.sub('[^A-Za-z0-9+-.@]+',' ', line)
-    array.append(zz)
+  text = ''
+  with open(input_file, 'r') as content_file:
+    text = content_file.read().decode('utf-8')
+
+  sentences = nltk.sent_tokenize(text)
 
   all_tokens = []
 
-  for line in array:
-    tokens = nltk.word_tokenize(line)
+  for sent in sentences:
+    tokens = nltk.word_tokenize(sent)
     line_tokens = []
     for token in tokens:
       if(not(token.isspace())):
@@ -22,10 +22,17 @@ def readfile(input_file):
       all_tokens.append(line_tokens)
   return all_tokens
 
-def tokenize_text(input_file):
+def tokenize_text(input_file,replace):
   """tokenizes the given input file into an array of tokens"""
   text_file = open(input_file, "r")
   text = text_file.read()
-  zz = re.sub('[^A-Za-z0-9+-.@]+',' ', text.lower())
-  tokens = nltk.word_tokenize(zz)
+  if replace==True:
+    text = re.sub('[^A-Za-z0-9+-.@]+',' ', text.lower())
+  tokens = nltk.word_tokenize(text)
   return tokens
+
+def pos_tag(text):
+  tokens = nltk.word_tokenize(text)
+  tagged = nltk.pos_tag(tokens)
+  print tagged
+
