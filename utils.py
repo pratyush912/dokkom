@@ -24,8 +24,9 @@ def readfile(input_file):
 
 def tokenize_text(input_file,replace):
   """tokenizes the given input file into an array of tokens"""
-  text_file = open(input_file, "r")
-  text = text_file.read()
+  text = ''
+  with open(input_file, 'r') as content_file:
+    text = content_file.read().decode('utf-8')
   if replace==True:
     text = re.sub('[^A-Za-z0-9+-.@]+',' ', text.lower())
   tokens = nltk.word_tokenize(text)

@@ -74,8 +74,8 @@ def token_comparison(tokens_1,tokens_2):
 
 def process_files(first_file,second_file):
   """process input files for comparison"""
-  tokens_1 = utils.tokenize_text(first_file)
-  tokens_2 = utils.tokenize_text(second_file)
+  tokens_1 = utils.tokenize_text(first_file,True)
+  tokens_2 = utils.tokenize_text(second_file,True)
   tc_scr1,tc_scr2,tokens = token_comparison(tokens_1,tokens_2)
   fuz_scr1,fuz_scr2 = fuzzy_comparison(tokens[0],tokens[1])
   scr_1 = (tc_scr1 + fuz_scr1)/2
