@@ -32,8 +32,4 @@ def tokenize_text(input_file,replace):
   tokens = nltk.word_tokenize(text)
   return tokens
 
-def pos_tag(text):
-  tokens = nltk.word_tokenize(text)
-  tagged = nltk.pos_tag(tokens)
-  print tagged
 
