@@ -1,4 +1,5 @@
 import nltk
+from nltk.corpus import conll2000
 
 class ConsecutiveNPChunkTagger(nltk.TaggerI):
 
@@ -33,3 +34,13 @@ class ConsecutiveNPChunker(nltk.ChunkParserI):
         tagged_sents = self.tagger.tag(sentence)
         conlltags = [(w,t,c) for ((w,t),c) in tagged_sents]
         return nltk.chunk.conlltags2tree(conlltags)
+
+def npchunk_features(sentence, i, history):
+  word, pos = sentence[i]
+  return {"pos": pos}
+
+train_sents = conll2000.chunked_sents('train.txt', chunk_types=['NP'])
+test_sents = conll2000.chunked_sents('test.txt', chunk_types=['NP']) 
+unigram_chunker = ConsecutiveNPChunker(train_sents)
+print (unigram_chunker.evaluate(test_sents))
+#print tag_sents

@@ -32,4 +32,15 @@ def tokenize_text(input_file,replace):
   tokens = nltk.word_tokenize(text)
   return tokens
 
-
+def traverse(t):
+  try:
+    t.node
+  except AttributeError:
+    return
+  else:
+   if t.node== 'NP':
+     print nltk.tag.util.untag(t)
+   # or do something else
+   else:
+    for child in t:
+      traverse(child)
